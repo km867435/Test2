@@ -148,6 +148,9 @@ from work.STAGE_FactLossAcc_Curr
 --where LOB_APLD = 'PPA' and State_APLD = 'NY' 
 group by DoLMonthTimeKey 
 order by DoLMonthTimeKey desc
+--IL_Acc_Cap typical Range: 80M - 160M per yearmo
+--NetFeature typical Range: 28,000 - 46,000 per yearmo
+--catIL_Acc_Cap typical Range: wide range 10,000s - almost 10M
 
 
 --select format(sum(IL_Acc_Cap),'C0') il_acc, format(sum(NetFeature),'N0') --, format(sum(NetFeature_Curr_APLD),'C0') 
@@ -296,11 +299,16 @@ Option (MaxDOP 0)
 /* LOSS NON-NPS ACC PERIOD *************************************************************************************************************************************************************************/
 
 
---select 
---	sum(IL_Acc_Cap), 
---	sum(NetFeature) ,
---	sum(NetFeature_Curr_APLD )
---from work.STAGE_FactLossAccNonNPSSys 
+select DOLMonthTimeKey,
+	format(sum(IL_Acc_Cap),'C0'), 
+	format(sum(NetFeature),'N0'),
+	format(sum(NetFeature_Curr_APLD ),'N0')
+from work.STAGE_FactLossAccNonNPSSys 
+group by DOLMonthTimeKey
+order by DOLMonthTimeKey desc
+--IL_Acc_Cap typical Range: 2M - 12M per yearmo
+--NetFeature typical Range: 800 - 2,500 per yearmo
+--NetFeature_Curr_APLD metrics slightly below NetFeature (see case when)
 
 
 
